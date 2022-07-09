@@ -10,7 +10,17 @@
 </head>
 
 <body>
-  <h1 class="text-center">Olá</h1>
+  <h2 class="text-center">User CRUD</h2>
+
+  <div class="container">
+    <div class="btn-group" role="group">
+      <a class="btn btn-default" href="/" role="button">Início</a>
+      <a class="btn btn-default" href="/user_create" role="button">Cadastrar</a>
+    </div>
+
+    <?php require $layout->load(); ?>
+  </div>
+
 </body>
 
 </html>

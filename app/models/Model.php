@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace app\models;
 
+use app\classes\Bind;
+use app\traits\PersistDB;
 use app\models\Connection;
 
-abstract class Model  
+abstract class Model
 {
+  use PersistDB;
+
   protected $connection;
 
   public function __construct()
   {
-    $this->connection = Connection::connect();
+    $this->connection = Bind::get('connection');
   }
 
   public function all() 
@@ -26,9 +30,9 @@ abstract class Model
 
   public function find($field, $value)
   {
-    $sql = "SELECT * FROM {$this->table} WHERE {$field} = ?";
+    $sql = "SELECT * FROM {$this->table} WHERE {$field} = :{$field}";
     $list = $this->connection->prepare($sql);
-    $list->bindValue(1, $value);
+    $list->bindValue($field, $value);
     $list->execute();
 
     return $list->fetch();
@@ -36,9 +40,9 @@ abstract class Model
 
   public function delete($field, $value)
   {
-    $sql = "DELETE FROM {$this->table} WHERE {$field} = ?";
+    $sql = "DELETE FROM {$this->table} WHERE {$field} = :{$field}";
     $delete = $this->connection->prepare($sql);
-    $delete->bindValue(1, $value);
+    $delete->bindValue($field, $value);
     $delete->execute();
 
     return $delete->rowCount();

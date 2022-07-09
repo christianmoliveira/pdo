@@ -12,6 +12,6 @@ class Routes
       throw new \Exception("Essa rota não existe {$uri}");
     }
 
-    require "../app/{$routes[$uri]}";
+    return "../app/{$routes[$uri]}.php";
   }
 }
